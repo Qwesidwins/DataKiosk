@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Packages - DataShop</title>
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- AOS Animation -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <!-- Alpine.js -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">DataShop</div>
+    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="packages.html" class="active">Packages</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero hero-small" data-aos="fade-up">
+    <h1>Choose Your Bundle</h1>
+    <p>Affordable internet data across MTN, AirtelTigo, and Telecel</p>
+  </section>
+
+  <!-- Packages Tabs -->
+  <section class="packages" x-data="{ network: 'MTN' }">
+    <div class="tabs">
+      <button @click="network='MTN'" :class="{ 'active': network==='MTN' }">MTN</button>
+      <button @click="network='AirtelTigo'" :class="{ 'active': network==='AirtelTigo' }">AirtelTigo</button>
+      <button @click="network='Telecel'" :class="{ 'active': network==='Telecel' }">Telecel</button>
+    </div>
+
+    <!-- MTN Bundles -->
+    <div x-show="network==='MTN'" class="grid" id="mtnBundles" data-aos="fade-right">
+      <!-- Firebase MTN bundles load here -->
+    </div>
+
+    <!-- AirtelTigo Bundles -->
+    <div x-show="network==='AirtelTigo'" class="grid" id="airtelBundles" data-aos="fade-right">
+      <!-- Firebase AirtelTigo bundles load here -->
+    </div>
+
+    <!-- Telecel Bundles -->
+    <div x-show="network==='Telecel'" class="grid" id="telecelBundles" data-aos="fade-right">
+      <!-- Firebase Telecel bundles load here -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 DataShop. All rights reserved.</p>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- Custom JS -->
+  <script src="js/script.js"></script>
+  <script src="js/packages.js"></script>
+</body>
+</html>

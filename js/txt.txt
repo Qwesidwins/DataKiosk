@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Packages - DataShop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- AOS Animation -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <!-- Alpine.js -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">DataShop</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="packages.html" class="active">Packages</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero hero-small" data-aos="fade-up">
+    <h1>Choose Your Bundle</h1>
+    <p>Affordable internet data across MTN, AirtelTigo, and Telecel</p>
+  </section>
+
+  <!-- Packages Tabs -->
+  <section class="packages" x-data="{ network: 'MTN' }">
+    <div class="tabs">
+      <button @click="network='MTN'" :class="{ 'active': network==='MTN' }">MTN</button>
+      <button @click="network='AirtelTigo'" :class="{ 'active': network==='AirtelTigo' }">AirtelTigo</button>
+      <button @click="network='Telecel'" :class="{ 'active': network==='Telecel' }">Telecel</button>
+    </div>
+
+    <!-- MTN Bundles -->
+    <div x-show="network==='MTN'" class="grid" data-aos="fade-right">
+      <div class="card">
+        <h3>5GB</h3>
+        <p>Valid 30 Days</p>
+        <span>GH₵16</span>
+        <a href="checkout.html?bundle=MTN-5GB&price=16" class="btn">Buy Now</a>
+      </div>
+      <div class="card">
+        <h3>10GB</h3>
+        <p>Valid 30 Days</p>
+        <span>GH₵30</span>
+        <a href="checkout.html?bundle=MTN-10GB&price=30" class="btn">Buy Now</a>
+      </div>
+    </div>
+
+    <!-- AirtelTigo Bundles -->
+    <div x-show="network==='AirtelTigo'" class="grid" data-aos="fade-right">
+      <div class="card">
+        <h3>5GB</h3>
+        <p>Valid 30 Days</p>
+        <span>GH₵15</span>
+        <a href="checkout.html?bundle=AirtelTigo-5GB&price=15" class="btn">Buy Now</a>
+      </div>
+      <div class="card">
+        <h3>10GB</h3>
+        <p>Valid 30 Days</p>
+        <span>GH₵28</span>
+        <a href="checkout.html?bundle=AirtelTigo-10GB&price=28" class="btn">Buy Now</a>
+      </div>
+    </div>
+
+    <!-- Telecel Bundles -->
+    <div x-show="network==='Telecel'" class="grid" data-aos="fade-right">
+      <div class="card">
+        <h3>2GB</h3>
+        <p>Valid 7 Days</p>
+        <span>GH₵10</span>
+        <a href="checkout.html?bundle=Telecel-2GB&price=10" class="btn">Buy Now</a>
+      </div>
+      <div class="card">
+        <h3>5GB</h3>
+        <p>Valid 30 Days</p>
+        <span>GH₵22</span>
+        <a href="checkout.html?bundle=Telecel-5GB&price=22" class="btn">Buy Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 DataShop. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
+
+
+CHECKOUT.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - DataShop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- AOS Animation -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">DataShop</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="packages.html">Packages</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero hero-small" data-aos="fade-up">
+    <h1>Checkout</h1>
+    <p>Confirm your details and pay securely</p>
+  </section>
+
+  <!-- Checkout Form -->
+  <section class="checkout" data-aos="zoom-in">
+    <div class="checkout-box">
+      <h2>Complete Your Purchase</h2>
+      <form id="checkoutForm">
+        <!-- Bundle Info (from URL params) -->
+        <div id="bundleInfo"></div>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required placeholder="e.g. 0241234567">
+
+        <button type="button" class="btn" onclick="payWithPaystack()">Pay with Paystack</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 DataShop. All rights reserved.</p>
+  </footer>
+
+  <!-- Paystack SDK -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
+
+
+SCRIPT.js
+// Initialize AOS animations
+AOS.init({
+  duration: 1000,
+  once: true
+});
+
+// Smooth scroll (optional enhancement)
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+
+// Already initializing AOS in index, works here too
+AOS.init({
+  duration: 1000,
+  once: true
+});
+AOS.init({ duration: 1000, once: true });
+
+// Get bundle info from URL
+const urlParams = new URLSearchParams(window.location.search);
+const bundle = urlParams.get("bundle");
+const price = urlParams.get("price");
+
+const bundleInfoDiv = document.getElementById("bundleInfo");
+if (bundleInfoDiv) {
+  bundleInfoDiv.innerHTML = `<p><strong>Selected Bundle:</strong> ${bundle}</p>
+                             <p><strong>Price:</strong> GH₵${price}</p>`;
+}
+
+// Paystack payment integration
+function payWithPaystack() {
+  let phone = document.getElementById("phone").value;
+  if (!phone) {
+    alert("Please enter your phone number");
+    return;
+  }
+
+  let handler = PaystackPop.setup({
+    key: "pk_test_4e01d4e633c2913adc530e74628c9a5350929918", // replace with your Paystack public key
+    email: "customer@example.com", // optional: can be collected from user
+    amount: price * 100, // Paystack accepts amount in kobo (multiply by 100)
+    currency: "GHS",
+    metadata: {
+      custom_fields: [
+        {
+          display_name: "Phone Number",
+          variable_name: "phone_number",
+          value: phone
+        },
+        {
+          display_name: "Bundle",
+          variable_name: "bundle",
+          value: bundle
+        }
+      ]
+    },
+    callback: function(response) {
+      window.location.href = "success.html?ref=" + response.reference;
+    },
+    onClose: function() {
+      alert("Transaction cancelled");
+    }
+  });
+  handler.openIframe();
+}
+

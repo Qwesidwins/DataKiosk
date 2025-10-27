@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful - DataShop</title>
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- AOS Animation -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">DataShop</div>
+    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="packages.html">Packages</a>
+    </nav>
+  </header>
+
+  <!-- Success Section -->
+  <section class="success" data-aos="zoom-in">
+    <div class="success-box">
+  <img src="images/success-icon.svg" alt="Success" class="success-icon">
+      <h1>Payment Successful </h1>
+      <p>Thank you for your purchase. Your data bundle will be processed shortly.</p>
+
+      <!-- Transaction Reference -->
+      <p id="refText" class="ref"></p>
+
+      <a href="packages.html" class="btn">Buy Another Bundle</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 DataShop. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Grab transaction reference from URL
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    const refText = document.getElementById("refText");
+
+    if (ref) {
+      refText.innerText = "Transaction Ref: " + ref;
+    } else {
+      refText.innerText = " No transaction reference found.";
+      refText.style.color = "red";
+    }
+  </script>
+  <script src="js/script.js"></script>
+</body>
+</html>

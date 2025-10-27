@@ -1,0 +1,12 @@
+/* Shared theme variables for the whole project */
+:root {
+  --primary: #0066cc; /* main blue */
+  --primary-dark: #004080; /* darker blue */
+  --accent: #ffcc00; /* yellow accent for CTA */
+  --danger: #e60000; /* red for destructive actions */
+  --bg: #f9f9f9;
+  --text: #333;
+  /* RGB fallbacks for overlays (optional) */
+  --primary-rgb: 0,102,204;
+  --primary-dark-rgb: 0,64,128;
+}

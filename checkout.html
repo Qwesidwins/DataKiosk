@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - DataShop</title>
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- AOS Animation -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">DataShop</div>
+    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="packages.html">Packages</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero hero-small" data-aos="fade-up">
+    <h1>Checkout</h1>
+    <p>Confirm your details and pay securely</p>
+  </section>
+
+  <!-- Checkout Form -->
+  <section class="checkout" data-aos="zoom-in">
+    <div class="checkout-box">
+      <h2>Complete Your Purchase</h2>
+      <form id="checkoutForm">
+        <div id="bundleInfo"></div>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required placeholder="e.g. 0241234567">
+
+        <button type="button" class="btn" onclick="payWithPaystack()">Pay with Paystack</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 DataShop. All rights reserved.</p>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <!-- Paystack SDK -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+
+  <!-- AOS Animation -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <script src="js/script.js"></script>
+
+  <script>
+    // Initialize AOS
+    AOS.init({ duration: 1000, once: true });
+
+    // Firebase Configuration (use shared window.firebaseConfig to avoid redeclaration)
+    if (typeof window.firebaseConfig === 'undefined') {
+      window.firebaseConfig = {
+        apiKey: "AIzaSyCQQgf1PGElY9nBxOJdgPNKHuJigJaObI8",
+        authDomain: "datastore-47bc1.firebaseapp.com",
+        projectId: "datastore-47bc1",
+        storageBucket: "datastore-47bc1.firebasestorage.app",
+        messagingSenderId: "179913186339",
+        appId: "1:179913186339:web:2e973acc115edab3aee596"
+      };
+    }
+
+    // Initialize Firebase if SDK is present and not already initialized
+    if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+      firebase.initializeApp(window.firebaseConfig);
+    }
+    const db = (typeof firebase !== 'undefined' && typeof firebase.firestore === 'function') ? firebase.firestore() : null;
+
+    //  Get bundle info from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const bundle = urlParams.get("bundle");
+    const price = urlParams.get("price");
+    const bundleInfoDiv = document.getElementById("bundleInfo");
+
+    if (bundleInfoDiv) {
+      bundleInfoDiv.innerHTML = `
+        <p><strong>Selected Bundle:</strong> ${bundle}</p>
+        <p><strong>Price:</strong> GH₵${price}</p>
+      `;
+    }
+
+    //  Paystack Payment
+    function payWithPaystack() {
+      let phone = document.getElementById("phone").value;
+      if (!phone) {
+        alert("Please enter your phone number");
+        return;
+      }
+
+      let handler = PaystackPop.setup({
+        key: "pk_test_4e01d4e633c2913adc530e74628c9a5350929918", // your Paystack public key
+        email: "customer@datashop.com", // static valid email to pass Paystack requirement
+        amount: price * 100,
+        currency: "GHS",
+        metadata: {
+          custom_fields: [
+            { display_name: "Phone Number", variable_name: "phone_number", value: phone },
+            { display_name: "Bundle", variable_name: "bundle", value: bundle }
+          ]
+        },
+        callback: function(response) {
+          //  Save order to Firestore
+          db.collection("orders").add({
+            phone: phone,
+            bundle: bundle,
+            price: parseFloat(price),
+            status: "pending",
+            reference: response.reference,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          })
+          .then(() => {
+            window.location.href = "success.html?ref=" + response.reference;
+          })
+          .catch((err) => {
+            console.error("Error saving order:", err);
+            alert("Payment successful, but order not recorded.");
+          });
+        },
+        onClose: function() {
+          alert("Transaction cancelled");
+        }
+      });
+      handler.openIframe();
+    }
+  </script>
+</body>
+</html>
